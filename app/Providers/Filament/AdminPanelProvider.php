@@ -36,6 +36,11 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Orange,
             ])
             // ->font('Poppin')
+            ->navigationGroups([
+                'Employee Management',
+                'Data Master',
+                'User Management'
+            ])
             ->brandLogo(asset('images/cake.jpg'))
             ->brandLogoHeight('2rem')
             // ->brandName('Squidward')
