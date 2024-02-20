@@ -10,6 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -73,12 +76,23 @@ class CountryResource extends Resource
         ];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Country Info')
+                ->schema([
+                    TextEntry::make('name')->label('Country Name'),
+                ])
+            ]);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListCountries::route('/'),
             'create' => Pages\CreateCountry::route('/create'),
-            'view' => Pages\ViewCountry::route('/{record}'),
+            // 'view' => Pages\ViewCountry::route('/{record}'),
             'edit' => Pages\EditCountry::route('/{record}/edit'),
         ];
     }
