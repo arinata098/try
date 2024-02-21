@@ -20,15 +20,26 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Models\Team;
 use App\Filament\App\Pages\Tenancy\RegisterTeam;
 use App\Filament\App\Pages\Tenancy\EditTeamProfile;
+use Filament\Navigation\MenuItem;
 
 class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('app')
             ->path('app')
             ->login()
+            ->profile()
+            ->registration()
+            ->userMenuItems([
+                MenuItem::make()
+                ->label('Admin')
+                ->icon('heroicon-o-cog-6-tooth')
+                ->url('/admin')
+                ->visible(fn (): bool => auth()->user()->is_admin)
+            ])
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => Color::Gray,

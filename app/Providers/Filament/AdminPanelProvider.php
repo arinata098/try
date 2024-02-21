@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\VerifyIsAdmin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,6 +18,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\MenuItem;
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -26,7 +29,12 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->userMenuItems([
+                MenuItem::make()
+                ->label('Dashboard')
+                ->icon('heroicon-o-cog-6-tooth')
+                ->url('/app')
+            ])
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => Color::Gray,
@@ -64,9 +72,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
+                VerifyIsAdmin::class,
             ]);
     }
 }
