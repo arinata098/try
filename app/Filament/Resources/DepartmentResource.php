@@ -16,6 +16,10 @@ use Filament\Infolists\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Exports\DepartmentExporter;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Tables\Actions\ExportAction;
 
 class DepartmentResource extends Resource
 {
@@ -75,9 +79,18 @@ class DepartmentResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
+            // ->headerActions([
+            //     ExportAction::make()
+            //         ->exporter(DepartmentExporter::class)
+            // ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ExportBulkAction::make()
+                        ->exporter(DepartmentExporter::class)
+                        ->formats([
+                            ExportFormat::Xlsx,
+                        ]),
                 ]),
             ]);
     }

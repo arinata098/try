@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\StateImporter;
 use App\Filament\Resources\StateResource\Pages;
 use App\Filament\Resources\StateResource\RelationManagers;
 use App\Filament\Resources\StateResource\RelationManagers\CitiesRelationManager;
@@ -17,6 +18,8 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Imports\StateImporterImporter;
+use Filament\Tables\Actions\ImportAction;
 
 class StateResource extends Resource
 {
@@ -84,6 +87,10 @@ class StateResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(StateImporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
